@@ -22,7 +22,7 @@ class ViewController: UIViewController {
     @IBAction func redrawTapped(_ sender: Any) {
         currentDrawType += 1
         
-        if currentDrawType > 5 {
+        if currentDrawType > 6 {
             currentDrawType = 0
         }
         
@@ -39,9 +39,45 @@ class ViewController: UIViewController {
             drawLines()
         case 5:
             drawImagesAndText()
+        case 6:
+            drawTwinWord()
         default:
             break
         }
+    }
+    
+    func drawTwinWord() {
+        let renderer = UIGraphicsImageRenderer(size: CGSize(width: 512, height: 512))
+        
+        let img = renderer.image { ctx in
+            // T
+            ctx.cgContext.move(to: CGPoint(x: 25, y: 25))
+            ctx.cgContext.addLine(to: CGPoint(x: 125, y: 25))
+            ctx.cgContext.move(to: CGPoint(x: 75, y: 25))
+            ctx.cgContext.addLine(to: CGPoint(x: 75, y: 125))
+            
+            // W
+            ctx.cgContext.move(to: CGPoint(x: 135, y: 25))
+            ctx.cgContext.addLine(to: CGPoint(x: 147.5, y: 125))
+            ctx.cgContext.addLine(to: CGPoint(x: 160, y: 25))
+            ctx.cgContext.addLine(to: CGPoint(x: 172.5, y: 125))
+            ctx.cgContext.addLine(to: CGPoint(x: 185, y: 25))
+            
+            // I
+            ctx.cgContext.move(to: CGPoint(x: 195, y: 25))
+            ctx.cgContext.addLine(to: CGPoint(x: 195, y: 125))
+            
+            // N
+            ctx.cgContext.move(to: CGPoint(x: 205, y: 125))
+            ctx.cgContext.addLine(to: CGPoint(x: 205, y: 25))
+            ctx.cgContext.addLine(to: CGPoint(x: 255, y: 125))
+            ctx.cgContext.addLine(to: CGPoint(x: 255, y: 25))
+            
+            ctx.cgContext.setStrokeColor(UIColor.black.cgColor)
+            ctx.cgContext.strokePath()
+        }
+        
+        imageView.image = img
     }
     
     func drawImagesAndText() {
@@ -56,7 +92,7 @@ class ViewController: UIViewController {
                 .paragraphStyle: paragraphStyle
             ]
             
-            let string = "The best-laid schemes o'\nmice an' men gang aft agley"
+            let string = "⭐️"
             let attributedString = NSAttributedString(string: string, attributes: attrs)
             
             attributedString.draw(with: CGRect(x: 32, y: 32, width: 448, height: 448), options: .usesLineFragmentOrigin, context: nil)
